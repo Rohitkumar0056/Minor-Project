@@ -5,6 +5,7 @@ A frontend-only research dashboard for presenting verified electricity-consumpti
 ## Run & Operate
 
 - `pnpm --filter @workspace/wattwise run dev` — run the WattWise Vite app through its managed workflow
+- In local PowerShell, set `$env:PORT = '5173'` and `$env:BASE_PATH = '/'` before running the dev command
 - `pnpm --filter @workspace/wattwise run typecheck` — typecheck the WattWise frontend
 - `PORT=3000 BASE_PATH=/ pnpm --filter @workspace/wattwise run build` — build the frontend
 - `pnpm run typecheck` — full workspace typecheck
@@ -39,7 +40,7 @@ Seven responsive pages present the dataset, model comparison, forecast-analysis 
 
 ## Gotchas
 
-- Vite requires `PORT` and `BASE_PATH`; the managed workflow supplies these for normal app runs.
+- Vite requires `PORT` and `BASE_PATH`; the managed workflow supplies these for normal app runs. Set them in your shell for local runs.
 - No timestamp-level prediction series or validated anomaly detector is available in the supplied results.
 
 ## Pointers
