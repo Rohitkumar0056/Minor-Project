@@ -1,44 +1,46 @@
-# [Project name]
+# WattWise Research Dashboard
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A frontend-only research dashboard for presenting verified electricity-consumption forecasting results from Random Forest, XGBoost, and LSTM experiments.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- `pnpm --filter @workspace/wattwise run dev` — run the WattWise Vite app through its managed workflow
+- `pnpm --filter @workspace/wattwise run typecheck` — typecheck the WattWise frontend
+- `PORT=3000 BASE_PATH=/ pnpm --filter @workspace/wattwise run build` — build the frontend
+- `pnpm run typecheck` — full workspace typecheck
 
 ## Stack
 
-- pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
-- DB: PostgreSQL + Drizzle ORM
-- Validation: Zod (`zod/v4`), `drizzle-zod`
-- API codegen: Orval (from OpenAPI spec)
-- Build: esbuild (CJS bundle)
+- pnpm workspace, React, TypeScript, Vite, Tailwind CSS
+- Recharts for interactive charts; Lucide React for icons
+- WattWise runs entirely in the browser and does not use the workspace API or database
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/wattwise/src/data/projectData.ts` — typed source of truth for the supplied research data
+- `artifacts/wattwise/src/App.tsx` — dashboard routes, page content, and interactions
+- `artifacts/wattwise/src/index.css` — dashboard theme and responsive styles
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Fixed experimental values are local and shared across all pages; do not duplicate or recompute them in components.
+- Forecast series and anomaly labels/results were not supplied, so those sections explain availability and research status without generating substitutes.
+- Model colors are consistent across charts: Random Forest blue, XGBoost teal, and LSTM violet.
+- WattWise has no backend, database, external API calls, uploads, accounts, or model training.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Seven responsive pages present the dataset, model comparison, forecast-analysis availability, tree-model feature importance, LSTM architecture and training, exploratory residual statistics, and experimental methodology.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Preserve research accuracy: do not invent observations, predictions, metrics, training-loss values, anomaly detections, timestamps, or evaluation scores.
+- Distinguish power in watts from energy in kWh, and distinguish validation results from test results.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Vite requires `PORT` and `BASE_PATH`; the managed workflow supplies these for normal app runs.
+- No timestamp-level prediction series or validated anomaly detector is available in the supplied results.
 
 ## Pointers
 

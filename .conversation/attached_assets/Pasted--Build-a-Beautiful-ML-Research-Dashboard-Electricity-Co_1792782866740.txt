@@ -1,0 +1,667 @@
+# Build a Beautiful ML Research Dashboard — Electricity Consumption Forecasting
+
+## 1. Project Goal
+
+Build a visually impressive, modern, fully functional **frontend-only research dashboard** for my college minor project:
+
+**Electricity Consumption Forecasting and Anomaly Detection Using Machine Learning and Deep Learning**
+
+The dashboard should visualize and compare the experimental results of three models:
+
+1. Random Forest Regressor
+2. XGBoost Regressor
+3. LSTM Neural Network
+
+I have already completed the experiments and have the results. This website is only for presenting, visualizing, and comparing those results.
+
+### Critical requirements
+
+- Do NOT implement file uploads.
+- Do NOT add upload buttons or drag-and-drop areas.
+- Do NOT create a backend or database.
+- Do NOT call external APIs.
+- Do NOT implement model training.
+- Do NOT require users to provide CSV, JSON, or image files.
+- Do NOT create authentication or user accounts.
+- Do NOT use random numbers, generated demo data, or fake model predictions.
+- Do NOT build a generic landing page instead of a dashboard.
+
+**Use only the fixed experimental values provided in this prompt.** Store the data directly in well-organized TypeScript files or local JavaScript objects. All charts, metrics, tables, and visualizations must work immediately when the website opens.
+
+The goal is to create a polished research presentation website that looks like a professional energy analytics and machine learning platform.
+
+---
+
+## 2. Technology Stack
+
+Use:
+
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Recharts for interactive charts
+- Lucide React for icons
+- React Router if useful for page navigation
+- Framer Motion for subtle animations, if needed
+
+Use reusable components and clean TypeScript interfaces.
+
+Keep the entire application frontend-only. It must run locally without a backend or external service.
+
+Suggested structure:
+
+- `src/data/projectData.ts` — all fixed experimental values
+- `src/components/` — reusable cards, charts, navigation, tables
+- `src/pages/Overview.tsx`
+- `src/pages/ModelComparison.tsx`
+- `src/pages/ForecastAnalysis.tsx`
+- `src/pages/FeatureImportance.tsx`
+- `src/pages/LSTMAnalysis.tsx`
+- `src/pages/AnomalyAnalysis.tsx`
+- `src/pages/Methodology.tsx`
+- `src/App.tsx`
+
+You can adjust the structure if a better implementation makes sense.
+
+---
+
+## 3. Visual Design — Make It Beautiful
+
+Design a premium, modern analytics dashboard inspired by high-quality SaaS analytics products and research visualization tools.
+
+The design should feel like a real machine learning research product, not a college assignment template.
+
+### Overall aesthetic
+
+- Deep navy sidebar: `#101828`
+- Light neutral background: `#F5F7FB`
+- White cards with subtle borders
+- Primary blue: `#3B82F6`
+- Teal accent: `#14B8A6`
+- Violet accent: `#8B5CF6`
+- Warm orange for warnings: `#F59E0B`
+- Dark readable typography
+- Rounded cards with approximately 12–16px corner radii
+- Subtle shadows and smooth transitions
+- Clean grid layouts and generous whitespace
+- Fine chart gridlines, readable labels, custom tooltips, and carefully styled legends
+
+Use a consistent color for each model across the entire application:
+
+- **Random Forest:** Blue
+- **XGBoost:** Teal
+- **LSTM:** Violet
+
+Use orange for errors, residual warnings, and exploratory anomaly indicators.
+
+### Layout
+
+Create a fixed or collapsible left sidebar containing:
+
+- Brand/logo: `WattWise`
+- Overview
+- Model Comparison
+- Forecast Analysis
+- Feature Importance
+- LSTM Analysis
+- Anomaly Analysis
+- Methodology
+
+The main content should have a top header with the current page title, a short contextual subtitle, and a compact project-status indicator.
+
+Add a clean footer with the project name and the label “Machine Learning Research Dashboard.”
+
+Use small icons, subtle hover effects, animated metric counters if appropriate, and polished empty states. Do not overuse gradients, glassmorphism, or decorative animations.
+
+The application must be responsive on desktop, tablet, and mobile.
+
+---
+
+## 4. Fixed Dataset Information
+
+Use the following verified project information in the dashboard.
+
+### Dataset
+
+- Dataset description: Academic Building Mains electricity consumption.
+- Dataset associated with the I-BLEND building electricity dataset.
+- Raw records: **2,269,530 minute-level records**.
+- Raw time range: **10 August 2013 to 31 December 2017**.
+- Timezone: Asia/Kolkata, UTC+05:30.
+- Raw measurements: timestamp, power, current, voltage, frequency, and power factor.
+- Target variable: hourly mean active power.
+- Target unit: watts (W).
+- Hourly dataset: **38,520 hourly rows**.
+- Engineered dataset: **38,520 rows and 52 columns**.
+- Missing hourly power targets: 638.
+- Fully observed hourly targets: 37,638.
+- Partially observed hours: 244.
+- Zero-power minute-level readings: 6,623.
+
+For the main dashboard, display the hourly dataset as the modeling dataset and the minute-level records as the raw dataset.
+
+Show a compact dataset summary card with the record counts, date range, target variable, and timezone.
+
+Do not confuse power in watts with energy in kWh.
+
+### Dataset summary charts
+
+Create static-data-driven visualizations for:
+- Dataset timeline.
+- Summary of dataset quality.
+- Target variable description.
+- Modeling pipeline.
+
+Do not invent a full historical hourly time series. The values above are summary statistics, not the actual 38,520 hourly observations.
+
+If a full historical series is not provided to the website, use a clear dataset summary visualization rather than generating fake consumption readings.
+
+---
+
+## 5. Model Performance Results
+
+These are the actual recorded model results. Use them as fixed values throughout the dashboard.
+
+### Test-set results
+
+| Metric | Random Forest | XGBoost | LSTM |
+|---|---:|---:|---:|
+| MAE | 2763.39 W | 2574.83 W | 5664.55 W |
+| RMSE | 4982.39 W | 4469.55 W | 9192.45 W |
+| R² | 0.9049 | 0.9234 | 0.6761 |
+| MAPE | 8.03% | 7.63% | 17.32% |
+| Evaluation samples | 5660 | 5660 | 5660 |
+
+### Validation-set results
+
+| Metric | Random Forest | XGBoost | LSTM |
+|---|---:|---:|---:|
+| MAE | 1541.73 W | 1507.65 W | 2300.73 W |
+| RMSE | 2627.33 W | 2458.22 W | 3635.23 W |
+| R² | 0.9601 | 0.9650 | 0.9235 |
+| MAPE | 5.23% | 5.09% | 7.62% |
+| Evaluation samples | 5756 | 5756 | 5756 |
+
+Use these exact values. Do not recalculate them from fabricated predictions or replace them with new numbers.
+
+### Performance insights
+
+Show the following key findings:
+
+1. **XGBoost achieved the best recorded test performance** across MAE, RMSE, R², and MAPE.
+2. Random Forest also performed well, with a test R² of 0.9049.
+3. LSTM achieved a test R² of 0.6761, substantially lower than its validation R² of 0.9235.
+4. All three models performed worse on the test set than on the validation set.
+5. The LSTM's validation-to-test degradation is especially pronounced and deserves further investigation.
+
+Do not claim that XGBoost will always be superior to deep learning models. State that it performed best in this experiment.
+
+---
+
+## 6. Page One — Overview Dashboard
+
+This is the first page users see. Make it visually impressive and information-dense without overcrowding it.
+
+### Hero section
+
+Title:
+
+**Electricity Consumption Intelligence**
+
+Subtitle:
+
+“Forecasting power demand with machine learning and deep learning.”
+
+Add a small status label: `Experiment Results · 3 Models Evaluated`
+
+Include a subtle electricity/energy-inspired icon or abstract data visualization, not a giant decorative image.
+
+### KPI cards
+
+Display six metric cards:
+
+1. Raw Records — `2.27M`
+2. Hourly Records — `38,520`
+3. Models Evaluated — `3`
+4. Best Test MAE — `2,574.83 W`
+5. Best Test RMSE — `4,469.55 W`
+6. Best Test R² — `0.9234`
+
+Add descriptive labels such as “XGBoost” beneath the best-metric values.
+
+### Main charts
+
+**Chart 1: Test Model Performance**
+
+Create a grouped bar chart comparing Random Forest, XGBoost, and LSTM across:
+- MAE
+- RMSE
+
+Since MAE and RMSE have different scales, provide a metric selector or use separate charts rather than placing incompatible scales on the same axis.
+
+**Chart 2: Model R² Comparison**
+
+Use a horizontal bar chart or compact vertical bars showing:
+
+- Random Forest: 0.9049
+- XGBoost: 0.9234
+- LSTM: 0.6761
+
+Set the axis range to 0–1 and make the values readable.
+
+**Chart 3: Validation vs. Test**
+
+Create a grouped chart comparing validation R² and test R² for each model.
+
+Use the same model colors throughout the application.
+
+### Key findings section
+
+Show three compact insight cards:
+
+- “XGBoost leads the current test evaluation.”
+- “Random Forest provides a strong tree-based baseline.”
+- “LSTM shows a substantial generalization gap.”
+
+Use concise, evidence-based descriptions.
+
+---
+
+## 7. Page Two — Model Comparison
+
+Make this the most analytical page of the dashboard.
+
+### Comparison table
+
+Show all validation and test metrics in a polished table.
+
+Columns:
+- Model
+- MAE
+- RMSE
+- R²
+- MAPE
+- Samples
+
+Add a selector to switch between `Validation` and `Test`.
+
+Highlight the best model for each metric. Lower MAE, RMSE, and MAPE are better; higher R² is better.
+
+Use formatted values with consistent decimal precision and units.
+
+### Interactive charts
+
+Create separate charts for:
+1. MAE comparison.
+2. RMSE comparison.
+3. R² comparison.
+4. MAPE comparison.
+5. Validation-to-test R² change.
+
+Add tooltips that explain each metric in plain English.
+
+### Model configuration cards
+
+**Random Forest**
+- 300 trees.
+- Maximum depth: unrestricted.
+- Random state: 42.
+- Reported training time: 25.30 seconds on CPU.
+
+**XGBoost**
+- 1000 estimators.
+- Learning rate: 0.03.
+- Maximum depth: 6.
+- Subsample: 0.8.
+- Column subsampling: 0.8.
+- Early stopping patience: 50.
+- Best validation iteration: 626.
+- Reported training time: 1.88 seconds on NVIDIA GeForce RTX 4050 Laptop GPU.
+
+**LSTM**
+- Architecture: two LSTM layers, each with 64 units.
+- First LSTM layer returns sequences.
+- Dropout: 0.2 after each LSTM layer.
+- Dense layer: 32 units with ReLU.
+- Output layer: one linear unit.
+- Input shape: 24 time steps × 39 features.
+- Optimizer: Adam.
+- Learning rate: 0.001.
+- Loss: mean squared error.
+- Batch size: 64.
+- Maximum epochs: 50.
+- Early stopping and learning-rate reduction enabled.
+- Reported training time: 143.13 seconds on CPU.
+- Best weights restored at epoch 10; 20 epochs were completed.
+
+Add a note explaining that the recorded training times were measured on different hardware and are not a fair standalone speed benchmark.
+
+---
+
+## 8. Page Three — Forecast Analysis
+
+Create a polished forecasting analysis page.
+
+The actual LSTM test metrics and prediction analysis are available, but the fixed values supplied here do not contain the complete timestamp-by-timestamp prediction series for all three models.
+
+Therefore:
+
+- Do not generate fake forecast lines.
+- Do not invent hourly actual values.
+- Do not create synthetic timestamps or prediction records.
+- Do not pretend to display all three models' actual prediction series.
+
+Instead, create an elegant model-comparison and forecast-analysis page with:
+
+1. Model selector.
+2. Test metric cards for the selected model.
+3. A real model-performance chart using the test metrics provided above.
+4. A forecast analysis section explaining what the actual-vs-predicted visualization represents.
+5. A clearly labeled visualization-availability state for timestamp-level predictions when the corresponding prediction series is not embedded in the website data.
+6. A residual-analysis section using the verified LSTM residual statistics below.
+
+Use a chart showing the error metrics as a useful alternative when full forecast sequences are unavailable.
+
+The page must look intentional and complete even without timestamp-level predictions. Do not leave huge blank chart areas or show fake data to fill them.
+
+---
+
+## 9. Page Four — Feature Importance
+
+Create a dedicated feature-importance page with interactive horizontal bar charts.
+
+Use the following recorded feature-importance values.
+
+### XGBoost feature importance
+
+| Feature | Importance (%) |
+|---|---:|
+| power_lag_1 | 53.07 |
+| energy_kwh_lag_1 | 20.09 |
+| hour_cos | 5.01 |
+| power_lag_168 | 3.87 |
+| hour | 1.86 |
+| hour_sin | 1.81 |
+| power_lag_2 | 1.78 |
+| power_range_lag_1 | 1.70 |
+| power_rolling_mean_3 | 1.30 |
+
+### Random Forest feature importance
+
+| Feature | Importance (%) |
+|---|---:|
+| power_lag_1 | 85.62 |
+| power_range_lag_1 | 3.25 |
+| hour_cos | 2.13 |
+| power_lag_2 | 1.17 |
+| power_lag_168 | 1.03 |
+
+### Interactions
+
+Implement:
+- Model selector: Random Forest or XGBoost.
+- Top 5 / Top 10 selector.
+- Descending horizontal bar chart.
+- Ranked feature table.
+- Hover tooltips with feature names and importance values.
+
+Since only the listed values are provided here, show only those recorded features. Do not fabricate the missing ranks or fill the charts with artificial features.
+
+### Feature interpretation
+
+Provide a compact explanation:
+
+- `power_lag_1`: power in the previous hour.
+- `energy_kwh_lag_1`: previous-hour energy consumption feature.
+- `power_lag_168`: power from approximately one week earlier.
+- `power_lag_2`: power two hours earlier.
+- `hour_sin`, `hour_cos`: cyclical encoding of hour of day.
+- `power_range_lag_1`: lagged power-range feature.
+- `power_rolling_mean_3`: rolling mean over the preceding three hours.
+
+For features whose exact computation is not fully established by this description, state that the definition follows the project's feature-engineering pipeline.
+
+### Insights
+
+Highlight these observations:
+
+- Both models rely heavily on recent consumption history.
+- Random Forest assigns particularly high importance to `power_lag_1`.
+- XGBoost distributes more importance across the recent lag, energy lag, and time-related features.
+- Feature importance reflects predictive relationships in these fitted models and does not establish causation.
+
+Do not display these importance values as LSTM feature importance.
+
+---
+
+## 10. Page Five — LSTM Analysis
+
+Create a deep-learning analysis page with attractive charts, metric cards, and technical explanations.
+
+### LSTM architecture
+
+Visualize this architecture as a clean flow diagram:
+
+`24 Historical Time Steps × 39 Features`
+→ `LSTM (64 Units, Return Sequences)`
+→ `Dropout (0.2)`
+→ `LSTM (64 Units)`
+→ `Dropout (0.2)`
+→ `Dense (32, ReLU)`
+→ `Dense (1, Linear)`
+→ `Predicted Hourly Power`
+
+Make the architecture readable and responsive.
+
+### LSTM metrics
+
+Display:
+
+Validation:
+- MAE: 2300.73 W
+- RMSE: 3635.23 W
+- R²: 0.9235
+- MAPE: 7.62%
+- Samples: 5756
+
+Test:
+- MAE: 5664.55 W
+- RMSE: 9192.45 W
+- R²: 0.6761
+- MAPE: 17.32%
+- Samples: 5660
+
+### Training analysis
+
+Use the following verified training information:
+
+- The best validation weights were restored at epoch 10.
+- A total of 20 epochs were completed.
+- Early stopping was enabled with patience 10.
+- Learning-rate reduction was enabled with factor 0.5 and patience 5.
+- The minimum learning rate was 0.00001.
+- The model was trained on CPU.
+- Reported training time: 143.13 seconds.
+
+Create an epoch summary and validation-vs-test comparison visualization.
+
+Do not invent exact training-loss values for individual epochs. If detailed epoch-level loss values are unavailable in the fixed data, show a conceptual training-process diagram and the verified early-stopping facts instead of a fabricated loss curve.
+
+### Generalization gap
+
+Create a visual comparison of validation and test R² and explain:
+
+“The LSTM performs substantially better on the validation set than on the held-out test set. This suggests that its generalization should be investigated further; the current experiment does not establish the cause.”
+
+---
+
+## 11. Page Six — Anomaly Analysis
+
+Create an exploratory anomaly-analysis page.
+
+**Important: a completed, validated anomaly detector is not available in the current experimental results.**
+
+Do not present this project as having a validated anomaly detection model.
+
+Use the following verified LSTM residual information:
+
+- Residual definition: `Actual − Predicted`.
+- Mean residual: approximately **+0.35 kW**.
+- Residual standard deviation: approximately **9.19 kW**.
+
+Interpretation:
+- A positive mean residual indicates slight average underprediction under this residual convention.
+- The standard deviation indicates substantial residual variability.
+- A high residual is not automatically a confirmed anomaly.
+
+Create:
+- Residual statistics cards.
+- An explanatory residual-distribution section.
+- A visual explanation of how residual-based anomaly screening might work.
+- A clearly labeled status: `Exploratory Analysis — Not Validated`.
+- A future-work card describing the need for a defined anomaly-detection method, threshold selection, labeled evaluation data, and precision/recall/F1 evaluation.
+
+Do not fabricate:
+- Number of detected anomalies.
+- Anomaly timestamps.
+- Confirmed fault events.
+- Electricity theft detections.
+- Precision, recall, F1, ROC-AUC, or PR-AUC values.
+
+If a residual-distribution chart cannot be built from the fixed statistics alone, use a well-designed statistical summary visualization instead of a fabricated histogram.
+
+Make it clear that this page communicates the current research status and proposed next steps, not completed detection results.
+
+---
+
+## 12. Page Seven — Methodology
+
+Create a visual methodology page that communicates the actual experimental workflow.
+
+### Pipeline
+
+1. Minute-level electricity measurements.
+2. Data inspection and preprocessing.
+3. Hourly aggregation.
+4. Lag and rolling-feature engineering.
+5. Chronological train/validation/test split.
+6. Random Forest, XGBoost, and LSTM experiments.
+7. Evaluation using MAE, RMSE, R², and MAPE.
+8. Model comparison and residual analysis.
+
+### Feature engineering
+
+Show these feature groups:
+- Power lags at 1, 2, 3, 6, 12, 24, 48, and 168 hours.
+- Energy lags at 1, 2, 3, 6, 12, 24, 48, and 168 hours.
+- Rolling means over 3, 6, 12, 24, and 168 hours.
+- Rolling standard deviations over the same windows.
+- Cyclical time features for hour, weekday, and month.
+- Calendar descriptors and lagged power-range features.
+
+The engineered dataset has 52 columns. The reported model predictor set uses 39 features.
+
+Explain that lagged rolling features use historical observations and exclude the current target.
+
+### Chronological evaluation
+
+Display the recorded data split:
+
+- Training: 26,466 evaluated samples after removing 498 missing targets from 26,964 rows.
+- Validation: 5,756 evaluated samples after removing 22 missing targets from 5,778 rows.
+- Test: 5,660 evaluated samples after removing 118 missing targets from 5,778 rows.
+
+Display the time boundaries:
+- Training through 6 September 2016, 11:00.
+- Validation from 6 September 2016, 12:00 through 5 May 2017, 05:00.
+- Test from 5 May 2017, 06:00 through 31 December 2017, 23:00.
+
+Use the project's Asia/Kolkata timezone.
+
+### Limitations
+
+Include these research limitations:
+- Only one building/meter dataset is evaluated.
+- There are no verified anomaly labels.
+- The LSTM has a substantial validation-to-test performance gap.
+- The tree models and LSTM may use slightly different temporal covariate information, so their comparison should be interpreted cautiously.
+- The experiment uses a single chronological split.
+- Training times were measured on different hardware.
+- Prediction intervals and uncertainty estimates are not available.
+
+Use clean diagrams, timeline components, and small explanatory cards rather than large blocks of text.
+
+---
+
+## 13. Fixed Data Implementation
+
+Create a single TypeScript file, `src/data/projectData.ts`, containing the actual values listed in this prompt.
+
+Include typed objects for:
+
+- Dataset summary.
+- Validation metrics.
+- Test metrics.
+- Model configurations.
+- Random Forest feature importance.
+- XGBoost feature importance.
+- LSTM training facts.
+- LSTM residual statistics.
+- Train/validation/test split.
+- Key findings.
+- Limitations.
+
+All pages must read from this shared source of truth.
+
+Do not scatter metric literals across multiple React components.
+
+Format numbers consistently:
+- Power: use W or kW explicitly.
+- R²: four decimal places.
+- Percentages: two decimal places.
+- Large counts: use readable separators or compact notation.
+
+Provide useful chart tooltips and accessible labels.
+
+---
+
+## 14. Important Data Integrity Rules
+
+These requirements are mandatory:
+
+1. Use only the fixed experimental values supplied in this prompt.
+2. Do not generate artificial hourly readings.
+3. Do not generate synthetic predictions.
+4. Do not invent model metrics or training-loss values.
+5. Do not fabricate anomaly detections.
+6. Do not add file-upload controls.
+7. Do not add an API or backend.
+8. Do not require an internet connection for the core dashboard to function.
+9. Do not claim the website trains or runs the machine learning models.
+10. Clearly distinguish actual experimental results from explanatory diagrams.
+11. Keep all metric definitions, units, and validation/test labels accurate.
+12. Use the same values everywhere they appear.
+
+The actual timestamp-level forecast series is not included in this prompt. Therefore, do not fabricate a full time-series prediction chart. Focus on genuine model metrics, model configurations, feature importance, dataset summaries, LSTM residual statistics, and methodology.
+
+---
+
+## 15. Final Polish and Acceptance Criteria
+
+Before finishing, verify:
+
+- The application starts successfully.
+- Every sidebar navigation item works.
+- All charts render using the fixed data.
+- Model selection and validation/test selection work.
+- Tooltips display accurate values.
+- Model colors remain consistent across pages.
+- No upload functionality exists anywhere.
+- No fake time-series data or placeholder metrics remain.
+- No backend is required.
+- The layout is responsive and visually polished.
+- There are no browser-console errors.
+- The project is ready to run and demonstrate locally.
+
+**Deliver a complete, beautiful, presentation-ready frontend website—not a mockup or partially implemented UI. Prioritize visual quality, clear data visualization, and research accuracy.**

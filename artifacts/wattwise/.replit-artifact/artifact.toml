@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "WattWise Research Dashboard"
+description = "A frontend-only research dashboard presenting verified electricity forecasting experiments, model comparisons, feature importance, LSTM analysis, residual statistics, and methodology."
+version = "1.0.0"
+id = "artifacts/wattwise"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19683
+
+[services.development]
+run = "pnpm --filter @workspace/wattwise run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/wattwise", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/wattwise/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19683"
+BASE_PATH = "/"
